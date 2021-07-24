@@ -26,5 +26,12 @@ namespace BlackjackApp
         Ace11 = 50
     }
 
+    public enum Suit
+    {
+        Heart = 1,
+        Diamond = 2,
+        Spades = 3,
+        Clubs = 4,
+    }
 
 }

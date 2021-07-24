@@ -17,7 +17,11 @@ namespace BlackjackApp
 
         public CardManipulation()
         {
-            Users = new();
+            CurrentUser = new User();
+            Dealer = new User();
+            Users = new List<User>();
+            DealerCards = new List<Card>();
+
         }
         Bet Bet { get; set; }
         public Card DrawCard()
@@ -49,15 +53,40 @@ namespace BlackjackApp
                 Type t = card.GetType();
                 if (t.Equals(typeof(RegularCard)))
                 {
-                    Console.Out.WriteLine(@$"{((RegularCard)card).Regular}");
+                    Console.Out.WriteLine(@$"{((RegularCard)card).Regular} of {((RegularCard)card).Suit}");
                 }
                 else
                 {
-                    Console.Out.WriteLine(@$"{((FaceCard)card).Face}");
+                    Console.Out.WriteLine(@$"{((FaceCard)card).Face} of {((FaceCard)card).Suit}");
                 }
             }
         }
+        public void ShowDealerFirstHand(User dealer)
+        {
+            int i = 0;
+            foreach (var card in dealer.MyHand)
+            {
+                    Type t = card.GetType();
+                if (i < 1)
+                {
+                    if (t.Equals(typeof(RegularCard)))
+                    {
+                        Console.Out.WriteLine(@$"{((RegularCard)card).Regular} of {((RegularCard)card).Suit}");
+                    }
+                    else
+                    {
+                        Console.Out.WriteLine(@$"{((FaceCard)card).Face} of {((FaceCard)card).Suit}");
+                    }
+                }
+                else
+                {
+                    Console.Out.WriteLine(@$"? of ?");
 
+                }
+
+                i++;
+            }
+        }
         public bool PlayBlackJack()
         {
             bool done = false;
@@ -82,18 +111,19 @@ namespace BlackjackApp
                     {
                         if (betAmount > 0)
                         {
-                            CurrentUser.CurrentBet.AmountUserPutDown = betAmount;
-                            CurrentUser.CurrentBet.ShuffleDeck();
+                            this.CurrentUser.CurrentBet.AmountUserPutDown = betAmount;
+                            this.CurrentUser.CurrentBet.ShuffleDeck();
 
                             for (int x = 0; x < 2; x++)
                             {
                                 CurrentUser.Hit(Hit());
                                 Dealer.Hit(Hit());
                             }
-                            userCurTotal = CurrentUser.GetTotalCardAmount();
+                            userCurTotal   = CurrentUser.GetTotalCardAmount();
                             dealerCurTotal = Dealer.GetTotalCardAmount();
 
-                            while (!win)  {
+                            while (!win) 
+                            {
                                 Console.Out.WriteLine("Here are your cards");
                                 ShowHand(CurrentUser);
                                 Console.Out.WriteLine(@$"Your current total is: {userCurTotal}.\nWould you like another hit? Enter 'yes' for a hit, 'stay' or 'x' to exit.\n");
@@ -101,25 +131,38 @@ namespace BlackjackApp
                                 input = Console.ReadLine();
                                 if (String.Equals(input, "yes", StringComparison.CurrentCultureIgnoreCase)) {
 
-                                    CurrentUser.Hit(Hit());
-
-
-
+                                    userCurTotal = CurrentUser.UpdateTotalCardAmount(Hit());
                                 }
                                 else if (String.Equals(input, "stay", StringComparison.CurrentCultureIgnoreCase)) {
-                                    Dealer.Hit(Hit());
-                                    dealerCurTotal = Dealer.GetTotalCardAmount();
+
+                                    dealerCurTotal = Dealer.UpdateTotalCardAmount(Hit());
                                     Console.Out.WriteLine("Here are the dealer's cards:\n");
                                     ShowHand(Dealer);
-                                    Console.Out.WriteLine(@$"Your current total is: {userCurTotal}.\nThe Dealer total is: {dealerCurTotal}.\n");
-
-
+                                    Console.Out.WriteLine(@$"The Dealer total is: {dealerCurTotal}.\n");
+                               
 
                                 }
                                 else if (String.Equals(input, "x", StringComparison.CurrentCultureIgnoreCase))
                                 {
+                                    win = true; 
+                                    done = true;
+                                    break;
+                                }
+                                if (dealerCurTotal > 21&& userCurTotal <= 21)
+                                {
+                                    Console.Out.WriteLine(@$"You won!\n");
+                                    userWin = true;
                                     win = true;
                                     done = true;
+                                    break;
+                                }
+                                else if (userCurTotal > 21&& dealerCurTotal <= 21)
+                                {
+                                    Console.Out.WriteLine(@$"You lost.\n");
+                                    userWin = false;
+                                    win = true;
+                                    done = true;
+                                    break;
                                 }
                             }
                         }

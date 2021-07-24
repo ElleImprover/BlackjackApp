@@ -6,8 +6,8 @@ namespace BlackjackApp
     {
      public  static void Main(string[] args)
         {
-            CardManipulation user = new();
-            user.PlayBlackJack();
+            CardManipulation game = new();
+            game.PlayBlackJack();
         }
     }
 

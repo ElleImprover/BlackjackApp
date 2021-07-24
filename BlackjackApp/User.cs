@@ -12,8 +12,15 @@ namespace BlackjackApp
         public List<Bet> AllBets { get; set; }
         public List<Card> MyHand { get; set; }
 
-        public void Hit(Card card)
+
+        public User()
         {
+            CurrentBet = new Bet();
+            AllBets = new List<Bet>();
+            MyHand = new List<Card>();
+        }
+        public void Hit(Card card)
+        { 
             MyHand.Add(card);
         }
 
@@ -25,8 +32,7 @@ namespace BlackjackApp
             foreach (var curCard in MyHand)
             {
                 //everything but aces
-                if (curCard.ID < 44)
-                {
+                if (curCard.ID < 44) {
                     total += GetCardAmountNotIncludingAces(curCard);
                 }
                 else
@@ -49,6 +55,7 @@ namespace BlackjackApp
 
         public int UpdateTotalCardAmount(Card curCard)
         {
+            Hit(curCard);
             var total = CurrentBet.AmountUserGained;
                 //everything but aces
                 if (curCard.ID < 44) {
