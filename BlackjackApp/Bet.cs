@@ -11,14 +11,18 @@ namespace BlackjackApp
         public int BetOrderID { get; set; }
         public int AmountPutDown { get; set; }
         public int AmountGained { get; set; }
-
         public Stack<Card> DeckOfCards { get; set; }
 
         public Bet()
         {
+            CreateDeck();
+        }
+
+        public void CreateDeck()
+        {
             DeckOfCards = new();
-            DeckOfCards.Push(new RegularCard { Regular = Regular.Two, ID= 1 });
-            DeckOfCards.Push(new RegularCard { Regular = Regular.Two, ID = 2});
+            DeckOfCards.Push(new RegularCard { Regular = Regular.Two, ID = 1 });
+            DeckOfCards.Push(new RegularCard { Regular = Regular.Two, ID = 2 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Two, ID = 3 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Two, ID = 4 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Three, ID = 5 });
@@ -37,7 +41,7 @@ namespace BlackjackApp
             DeckOfCards.Push(new RegularCard { Regular = Regular.Six, ID = 18 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Six, ID = 19 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Six, ID = 20 });
-            DeckOfCards.Push(new RegularCard { Regular = Regular.Seven, ID = 21});
+            DeckOfCards.Push(new RegularCard { Regular = Regular.Seven, ID = 21 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Seven, ID = 22 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Seven, ID = 23 });
             DeckOfCards.Push(new RegularCard { Regular = Regular.Seven, ID = 24 });
@@ -75,8 +79,6 @@ namespace BlackjackApp
             DeckOfCards.Push(new FaceCard { Face = Face.Ace1, ID = 51 });
             DeckOfCards.Push(new FaceCard { Face = Face.Ace1, ID = 52 });
         }
-
-
         public void ShuffleDeck() {
 
             var deckList = DeckOfCards.ToList();
