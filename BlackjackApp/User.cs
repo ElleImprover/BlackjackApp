@@ -8,15 +8,17 @@ namespace BlackjackApp
 {
    public class User
     {
-        public Bet CurrentBet { get; set; }
-        public List<Bet> AllBets { get; set; }
+       // public Bet CurrentBet { get; set; }
+       // public List<Bet> AllBets { get; set; }
         public List<Card> MyHand { get; set; }
+        public double AmountUserPutDown { get; set; }
+        public int CardHandTotal { get; set; }
 
-
+        public double AmountUserWonOrLost { get; set; }
         public User()
         {
-            CurrentBet = new Bet();
-            AllBets = new List<Bet>();
+           // CurrentBet = new Bet();
+            //AllBets = new List<Bet>();
             MyHand = new List<Card>();
         }
         public void Hit(Card card)
@@ -48,7 +50,7 @@ namespace BlackjackApp
                 }
 
             }
-            CurrentBet.AmountUserGained = total;
+            CardHandTotal = total;
             return total;
 
         }
@@ -56,7 +58,7 @@ namespace BlackjackApp
         public int UpdateTotalCardAmount(Card curCard)
         {
             Hit(curCard);
-            var total = CurrentBet.AmountUserGained;
+            var total = CardHandTotal;
                 //everything but aces
                 if (curCard.ID < 44) {
                     total += GetCardAmountNotIncludingAces(curCard);
@@ -72,7 +74,7 @@ namespace BlackjackApp
                 }
 
             
-            CurrentBet.AmountUserGained = total;
+            CardHandTotal = total;
             return total;
 
         }
