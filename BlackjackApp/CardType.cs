@@ -22,13 +22,13 @@ namespace BlackjackApp
         Queen = 10,
         King  = 20,
         Jack  = 30,
-        Ace1  = 40,
+        Ace  = 40,
         Ace11 = 50
     }
 
     public enum Suit
     {
-        Heart = 1,
+        Hearts = 1,
         Diamond = 2,
         Spades = 3,
         Clubs = 4,

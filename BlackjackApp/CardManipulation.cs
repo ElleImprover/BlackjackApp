@@ -17,11 +17,11 @@ namespace BlackjackApp
 
         public CardManipulation()
         {
-           // Bet = new Bet();
-           // CurrentUser = new User();
-           // Dealer = new User();
-           //// Users = new List<User>();
-           // DealerCards = new List<Card>();
+            // Bet = new Bet();
+            // CurrentUser = new User();
+            // Dealer = new User();
+            //// Users = new List<User>();
+            // DealerCards = new List<Card>();
 
         }
         Bet Bet { get; set; }
@@ -67,7 +67,7 @@ namespace BlackjackApp
             int i = 0;
             foreach (var card in dealer.MyHand)
             {
-                    Type t = card.GetType();
+                Type t = card.GetType();
                 if (i < 1)
                 {
                     if (t.Equals(typeof(RegularCard)))
@@ -89,26 +89,24 @@ namespace BlackjackApp
             }
         }
 
-        //ED- Need to reset all values for a new round- new objects and new fields as it's retaining the old values when the user restarts for another round
-        //// I MAY start the program in a different place or create a new method called PlayBlackJack that strts when the user enters start, so that it automatically resets the object values
-        public bool PlayBlackJack()
+     public bool PlayBlackJack()
         {
             bool userWin = false;
             bool done = false;
             while (!done)
             {
-            Bet = new Bet();
-            CurrentUser = new User();
-            Dealer = new User();
-            // Users = new List<User>();
-            DealerCards = new List<Card>();
-            bool win = false;
+                Bet = new Bet();
+                CurrentUser = new User();
+                Dealer = new User();
+                // Users = new List<User>();
+                DealerCards = new List<Card>();
+                bool win = false;
 
-            int betAmount = 0;
-            int userCurTotal = 0;
-            int dealerCurTotal = 0;
-            double amtWonOrLost = 0;
-            string input = "";
+                int betAmount = 0;
+                int userCurTotal = 0;
+                int dealerCurTotal = 0;
+                double amtWonOrLost = 0;
+                string input = "";
 
 
                 Console.Out.WriteLine("Please type 'start' to play or 'x' to exit.");
@@ -130,91 +128,93 @@ namespace BlackjackApp
                                 CurrentUser.Hit(Bet.Hit());
                                 Dealer.Hit(Bet.Hit());
                             }
-                            userCurTotal   = CurrentUser.GetTotalCardAmount();
+                            userCurTotal = CurrentUser.GetTotalCardAmount();
                             dealerCurTotal = Dealer.GetTotalCardAmount();
-
-                            while (!win) 
+                            Console.Out.WriteLine("Here are your cards:");
+                            ShowHand(CurrentUser);
+                            Console.Out.WriteLine(@$"Your current total is: {userCurTotal}.");
+                            Console.Out.WriteLine("Here are the dealer's cards:");
+                            ShowDealerFirstHand(Dealer);
+                            while (!win)
                             {
-                                Console.Out.WriteLine("Here are your cards:");
-                                ShowHand(CurrentUser);
-                                Console.Out.WriteLine(@$"Your current total is: {userCurTotal}.");
                                 Console.Out.WriteLine(@$"Would you like another hit? Enter 'yes' for a hit, 'stay' or 'x' to exit.");
 
                                 input = Console.ReadLine();
-                                if (String.Equals(input, "yes", StringComparison.CurrentCultureIgnoreCase)) {
+                                if (String.Equals(input, "yes", StringComparison.CurrentCultureIgnoreCase))
+                                {
 
                                     userCurTotal = CurrentUser.UpdateTotalCardAmount(Hit());
-                                    Console.Out.WriteLine("Here are the dealer's cards:\n");
-                                    ShowHand(Dealer);
-                                    Console.Out.WriteLine(@$"The dealer's total is: {dealerCurTotal}.");
-                                    Console.Out.WriteLine("Here are your cards:\n");
+
+                                    Console.Out.WriteLine("Here are all of your cards:\n");
                                     ShowHand(CurrentUser);
                                     Console.Out.WriteLine(@$"Your current total is: {userCurTotal}.");
-                                    Console.ReadLine();
-
-                                }
-                                else if (String.Equals(input, "stay", StringComparison.CurrentCultureIgnoreCase)) {
-                                    if (dealerCurTotal < 17) {
-                                        dealerCurTotal = Dealer.UpdateTotalCardAmount(Hit());
-                                    }
-                                    Console.Out.WriteLine("Here are the dealer's cards:\n");
+                                    Console.Out.WriteLine("Here are the dealer's cards:");
                                     ShowHand(Dealer);
                                     Console.Out.WriteLine(@$"The dealer's total is: {dealerCurTotal}.");
-                                    Console.ReadLine();
+                                }
+                                else if (String.Equals(input, "stay", StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    if (dealerCurTotal < 17)
+                                    {
+                                        dealerCurTotal = Dealer.UpdateTotalCardAmount(Hit());
+                                    }
+                                    Console.Out.WriteLine("Here are the dealer's cards:");
+                                    ShowHand(Dealer);
+                                    Console.Out.WriteLine(@$"The dealer's total is: {dealerCurTotal}.");
                                 }
                                 else if (String.Equals(input, "x", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     done = true;
                                     break;
                                 }
-                                if (dealerCurTotal > 21&& userCurTotal <= 21)
+                                else
                                 {
-                                    amtWonOrLost = 1.5*CurrentUser.AmountUserPutDown;
+                                    Console.Out.WriteLine(@$"Your input was invalid.");
+
+                                }
+                                if (dealerCurTotal > 21 && userCurTotal <= 21)
+                                {
+                                    amtWonOrLost = 1.5 * CurrentUser.AmountUserPutDown;
                                     Dealer.AmountUserWonOrLost -= amtWonOrLost;
                                     CurrentUser.AmountUserWonOrLost += amtWonOrLost;
-                                    Console.Out.WriteLine(@$"You won ${amtWonOrLost}!\n");
-                                    Console.ReadLine();
+                                    Console.Out.WriteLine(@$"You won ${amtWonOrLost}!");
                                     userWin = true;
                                     win = true;
                                     break;
                                 }
-                                else if (userCurTotal > 21&& dealerCurTotal <= 21)
-                                { 
-                                    amtWonOrLost = CurrentUser.AmountUserPutDown; 
+                                else if (userCurTotal > 21 && dealerCurTotal <= 21)
+                                {
+                                    amtWonOrLost = CurrentUser.AmountUserPutDown;
                                     Dealer.AmountUserWonOrLost += amtWonOrLost;
                                     CurrentUser.AmountUserWonOrLost -= amtWonOrLost;
 
-                                    Console.Out.WriteLine(@$"You lost ${amtWonOrLost}.\n");
-                                    Console.ReadLine();
+                                    Console.Out.WriteLine(@$"You lost ${amtWonOrLost}.");
 
                                     userWin = false;
                                     win = true;
-                                   // done = true;
                                     break;
                                 }
-                                else if (userCurTotal > dealerCurTotal && userCurTotal <= 21&&dealerCurTotal>=17)
+                                else if (userCurTotal > dealerCurTotal && userCurTotal <= 21 && dealerCurTotal >= 17 && (input.Equals("stay", StringComparison.CurrentCultureIgnoreCase)))//|| input.Equals("hit", StringComparison.CurrentCultureIgnoreCase)))
                                 {
                                     amtWonOrLost = CurrentUser.AmountUserPutDown;
                                     Dealer.AmountUserWonOrLost -= amtWonOrLost;
                                     CurrentUser.AmountUserWonOrLost += amtWonOrLost;
-                                    Console.Out.WriteLine(@$"You won ${amtWonOrLost}!\n");
-                                    Console.ReadLine();
+                                    Console.Out.WriteLine(@$"You won ${amtWonOrLost}!");
                                     userWin = true;
                                     win = true;
-                                    //done = true;
                                     break;
                                 }
-                                else if (userCurTotal == dealerCurTotal && userCurTotal <= 21&& dealerCurTotal>= 17)
+                                else if (userCurTotal == dealerCurTotal && userCurTotal <= 21 && dealerCurTotal >= 17 && (input.Equals("stay", StringComparison.CurrentCultureIgnoreCase)))//|| input.Equals("hit", StringComparison.CurrentCultureIgnoreCase)))
                                 {
                                     Console.Out.WriteLine("It's a tie!\nNo wins, but no losses.");
                                     userWin = false;
                                     win = true;
-                                    //done = true;
                                     break;
                                 }
                             }
                         }
-                        else {
+                        else
+                        {
                             Console.Out.WriteLine("Bet amount must be greater than 0.");
                         }
                     }
