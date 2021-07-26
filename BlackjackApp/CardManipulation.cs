@@ -16,12 +16,7 @@ namespace BlackjackApp
         public User Dealer { get; set; }
 
         public CardManipulation()
-        {
-            // Bet = new Bet();
-            // CurrentUser = new User();
-            // Dealer = new User();
-            //// Users = new List<User>();
-            // DealerCards = new List<Card>();
+        { 
 
         }
         Bet Bet { get; set; }
@@ -177,7 +172,10 @@ namespace BlackjackApp
                                     amtWonOrLost = 1.5 * CurrentUser.AmountUserPutDown;
                                     Dealer.AmountUserWonOrLost -= amtWonOrLost;
                                     CurrentUser.AmountUserWonOrLost += amtWonOrLost;
+                                    Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Out.WriteLine(@$"You won ${amtWonOrLost}!");
+                                    Console.ResetColor();
+
                                     userWin = true;
                                     win = true;
                                     break;
@@ -186,9 +184,10 @@ namespace BlackjackApp
                                 {
                                     amtWonOrLost = CurrentUser.AmountUserPutDown;
                                     Dealer.AmountUserWonOrLost += amtWonOrLost;
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     CurrentUser.AmountUserWonOrLost -= amtWonOrLost;
-
                                     Console.Out.WriteLine(@$"You lost ${amtWonOrLost}.");
+                                    Console.ResetColor();
 
                                     userWin = false;
                                     win = true;
@@ -199,14 +198,18 @@ namespace BlackjackApp
                                     amtWonOrLost = CurrentUser.AmountUserPutDown;
                                     Dealer.AmountUserWonOrLost -= amtWonOrLost;
                                     CurrentUser.AmountUserWonOrLost += amtWonOrLost;
+                                    Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Out.WriteLine(@$"You won ${amtWonOrLost}!");
+                                    Console.ResetColor();
                                     userWin = true;
                                     win = true;
                                     break;
                                 }
                                 else if (userCurTotal == dealerCurTotal && userCurTotal <= 21 && dealerCurTotal >= 17 && (input.Equals("stay", StringComparison.CurrentCultureIgnoreCase)))//|| input.Equals("hit", StringComparison.CurrentCultureIgnoreCase)))
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
                                     Console.Out.WriteLine("It's a tie!\nNo wins, but no losses.");
+                                    Console.ResetColor();
                                     userWin = false;
                                     win = true;
                                     break;
